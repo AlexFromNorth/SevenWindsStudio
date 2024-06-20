@@ -7,7 +7,7 @@
     position: relative
     display: inline-block
 
-    &::after
+    &.hasChildren::after
       content: ''
       position: absolute
       top: calc(100% - 5px)
@@ -16,7 +16,7 @@
       height: 15px
       background-color: white
 
-    &::before
+    &.hasChildren::before
       content: ''
       position: absolute
       top: calc(100% + 10px)
@@ -24,3 +24,6 @@
       width: 10px
       height: 2px
       background-color: white
+
+.childrenContainer
+  margin-left: 20px

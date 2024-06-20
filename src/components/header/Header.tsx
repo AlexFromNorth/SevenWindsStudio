@@ -7,7 +7,7 @@ const Header = () => {
         <button className={style.btn}>List</button>
         <button>return</button>
         <button className={style.btn}>Просмотр</button>
-        <button>Управление</button>
+        <button>Управление 2</button>
     </div>
   )
 }
