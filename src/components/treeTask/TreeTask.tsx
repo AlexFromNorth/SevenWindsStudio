@@ -1,9 +1,10 @@
 // src/components/TreeTask.tsx
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import styles from './TreeTask.module.sass'; // импортируем стили
-import { addChild, editNode, deleteNode } from '../../store/slices/treeSlice';
-import { MathRandom } from '../../utils/utils';
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import styles from "./TreeTask.module.sass"; // импортируем стили
+import { addChild, editNode, deleteNode } from "../../store/slices/treeSlice";
+import { MathRandom } from "../../utils/utils";
+import { getUserAccount } from "../../api/api";
 
 interface TreeNode {
   name?: string;
@@ -18,27 +19,29 @@ interface TreeTaskProps {
 const TreeTask: React.FC<TreeTaskProps> = ({ node }) => {
   const dispatch = useDispatch();
   const [isEditing, setIsEditing] = useState(false);
-  const [newName, setNewName] = useState(node.name || '');
+  const [newName, setNewName] = useState(node.name || "");
   const [newCost, setNewCost] = useState(node.cost || 0);
 
   const handleAddChild = () => {
     const newChild = {
       name: `child${MathRandom()}`,
       cost: 0,
-      children: []
+      children: [],
     };
-    dispatch(addChild({ parentName: node.name || '', child: newChild }));
+    dispatch(addChild({ parentName: node.name || "", child: newChild }));
   };
 
-  const handleEditNode = () => {
-    if (isEditing) {
-      dispatch(editNode({ nodeName: node.name || '', newName, newCost }));
-    }
-    setIsEditing(!isEditing);
-  };
+  const [count, setCount] = useState(0);
+
+useEffect(() => {
+    getUserAccount()
+  }, []);
+  
+  // getUserAccount();
+ 
 
   const handleDeleteNode = () => {
-    dispatch(deleteNode({ nodeName: node.name || '' }));
+    dispatch(deleteNode({ nodeName: node.name || "" }));
   };
 
   const handleDoubleClick = () => {
@@ -46,8 +49,8 @@ const TreeTask: React.FC<TreeTaskProps> = ({ node }) => {
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      dispatch(editNode({ nodeName: node.name || '', newName, newCost }));
+    if (e.key === "Enter") {
+      dispatch(editNode({ nodeName: node.name || "", newName, newCost }));
       setIsEditing(false);
     }
   };
@@ -56,7 +59,12 @@ const TreeTask: React.FC<TreeTaskProps> = ({ node }) => {
 
   return (
     <div className={styles.treeTask}>
-      <div className={`${styles.nodeContent} ${hasChildren ? styles.hasChildren : ''}`}>
+      <h1>{count}</h1>
+      <div
+        className={`${styles.nodeContent} ${
+          hasChildren ? styles.hasChildren : ""
+        }`}
+      >
         {isEditing ? (
           <>
             <input
@@ -73,7 +81,9 @@ const TreeTask: React.FC<TreeTaskProps> = ({ node }) => {
             />
           </>
         ) : (
-          <span onDoubleClick={handleDoubleClick}>Name: {node.name || 'Unnamed'}, Cost: {node.cost || 0}</span>
+          <span onDoubleClick={handleDoubleClick}>
+            Name: {node.name || "Unnamed"}, Cost: {node.cost || 0}
+          </span>
         )}
         <button onClick={handleAddChild}>Add Child</button>
         <button onClick={handleDeleteNode}>Delete</button>
