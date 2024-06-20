@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import style from './Header.module.sass'
 import box from '../../assets/box.png'
 import back from '../../assets/back.png'
