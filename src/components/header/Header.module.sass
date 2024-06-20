@@ -7,14 +7,17 @@
     padding: 5px
     background: transparent
     transition: .3s
-    border-bottom: 1px solid transparent
+    border-bottom: 2px solid transparent
     &:hover
-        border-bottom: 1px solid white
+        border-bottom: 2px solid white
 
 .header
     padding-left: 30px
     border-bottom: 1px solid $gray-line
-    padding-bottom: 5px
+    &>button:nth-of-type(3)
+        border-bottom: 2px solid white
+    &>button:nth-of-type(4)
+        color: $gray-text
 
 .image
     width: 15px
