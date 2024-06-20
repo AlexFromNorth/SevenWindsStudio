@@ -18,13 +18,12 @@ const Navbar = () => {
             </div>
 
             {listCategories.map((el: String, i: Key) => (
-                <div className={style.item}>
-                    <button key={i} className={style.btn}>
+                <div className={style.item} key={i}>
+                    <button className={style.btn}>
                         <img src={whiteBox} className={style.image} />
                         {el}
                     </button>
                 </div>
-
             ))}
         </div>
     )
