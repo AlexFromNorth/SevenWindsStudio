@@ -6,12 +6,14 @@ import Test from './components/Test';
 import { Counter } from './components/Counter';
 import { RootState } from './store/store';
 import TreeTask from './components/treeTask/TreeTask';
+import Header from './components/header/Header';
 
 const App: React.FC = () => {
   const root = useSelector((state: RootState) => state.tree.root);
 
   return (
     <Router>
+      <Header/>
       <div>
         <TreeTask node={root} />
         <Counter/>
