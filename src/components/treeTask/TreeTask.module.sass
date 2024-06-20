@@ -1,0 +1,26 @@
+// src/components/TreeTask.module.sass
+.treeTask
+  position: relative
+  margin-left: 20px
+
+  .nodeContent
+    position: relative
+    display: inline-block
+
+    &::after
+      content: ''
+      position: absolute
+      top: calc(100% - 5px)
+      left: 5px
+      width: 2px
+      height: 15px
+      background-color: white
+
+    &::before
+      content: ''
+      position: absolute
+      top: calc(100% + 10px)
+      left: 6px
+      width: 10px
+      height: 2px
+      background-color: white
