@@ -1,5 +1,8 @@
+@import '../../index.sass'
+
 .image
     margin-inline: 10px
+    width: 15px
 
 .btn
     width: 100%
@@ -11,5 +14,19 @@
 .item
     width: 100%
 
-.navbar>.item:nth-of-type(5)>button
-    background: #a1a1aa
+.navbar
+    max-height: 55%
+    overflow-y: auto
+    border-right: 1px solid $gray-line
+    &>.item:nth-of-type(5)>button
+        background: #a1a1aa
+
+.topNavbar
+    padding: 15px
+    border-bottom: 1px solid $gray-line
+    color: $gray-text
+    display: flex
+    justify-content: space-between
+    align-items: center
+    &>div>p:nth-of-type(2)
+        font-size: 10px
