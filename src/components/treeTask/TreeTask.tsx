@@ -1,10 +1,9 @@
 // src/components/TreeTask.tsx
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import styles from "./TreeTask.module.sass"; // импортируем стили
 import { addChild, editNode, deleteNode } from "../../store/slices/treeSlice";
 import { MathRandom } from "../../utils/utils";
-import { getUserAccount } from "../../api/api";
 
 interface TreeNode {
   name?: string;
@@ -32,13 +31,6 @@ const TreeTask: React.FC<TreeTaskProps> = ({ node }) => {
   };
 
   const [count, setCount] = useState(0);
-
-useEffect(() => {
-    getUserAccount()
-  }, []);
-  
-  // getUserAccount();
- 
 
   const handleDeleteNode = () => {
     dispatch(deleteNode({ nodeName: node.name || "" }));
