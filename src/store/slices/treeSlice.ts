@@ -1,92 +1,89 @@
-// src/store/slices/treeSlice.ts
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-interface TreeNode {
-  name: string;
-  cost: number;
-  children: TreeNode[];
-}
-
-interface TreeState {
-  root: TreeNode;
-}
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { TreeNode, TreeState } from "../../types/types";
 
 const initialState: TreeState = {
   root: {
-    name: 'root',
-    cost: 100,
-    children: [
-      {
-        name: 'child1',
-        cost: 50,
-        children: [
-          {
-            name: 'grandchild1',
-            cost: 25,
-            children: []
-          },
-          {
-            name: 'grandchild2',
-            cost: 30,
-            children: []
-          }
-        ]
-      },
-      {
-        name: 'child2',
-        cost: 75,
-        children: []
-      }
-    ]
-  }
+    rowName: `rootName`,
+    total: 0,
+    equipmentCosts: 0,
+    estimatedProfit: 0,
+    id: 0,
+    machineOperatorSalary: 0,
+    mainCosts: 0,
+    materials: 0,
+    mimExploitation: 0,
+    overheads: 0,
+    salary: 0,
+    supportCosts: 0,
+    child: [],
+  },
 };
 
 const treeSlice = createSlice({
-  name: 'tree',
+  name: "tree",
   initialState,
   reducers: {
-    addChild: (state, action: PayloadAction<{ parentName: string; child: TreeNode }>) => {
-      const { parentName, child } = action.payload;
+    createStore: (state, action: PayloadAction<{ node: TreeNode }>) => {
+      state.root = action.payload.node;
+    },
+
+    addChild: (
+      state,
+      action: PayloadAction<{ parentId: number; child: TreeNode }>
+    ) => {
+      const { parentId, child } = action.payload;
       const addNode = (node: TreeNode) => {
-        if (node.name === parentName) {
-          node.children.push(child);
-        } else {
-          node.children.forEach(addNode);
+        if (node.id === parentId) {
+          node.child.push(child);
+        } else if (node.child) {
+          node.child.forEach(addNode);
         }
       };
       addNode(state.root);
     },
-    editNode: (state, action: PayloadAction<{ nodeName: string; newName: string; newCost: number }>) => {
+
+    editNode: (
+      state,
+      action: PayloadAction<{
+        nodeName: string;
+        newName: string;
+        newCost: number;
+      }>
+    ) => {
       const { nodeName, newName, newCost } = action.payload;
       const editNode = (node: TreeNode) => {
-        if (node.name === nodeName) {
-          node.name = newName;
-          node.cost = newCost;
-        } else {
-          node.children.forEach(editNode);
+        if (node.rowName === nodeName) {
+          node.rowName = newName;
+          node.total = newCost;
+        } else if (node.child) {
+          node.child.forEach(editNode);
         }
       };
       editNode(state.root);
     },
+
     deleteNode: (state, action: PayloadAction<{ nodeName: string }>) => {
       const { nodeName } = action.payload;
       const deleteNode = (node: TreeNode, parent: TreeNode | null) => {
-        node.children = node.children.filter((child) => {
-          if (child.name === nodeName) {
+        node.child = node.child?.filter((child) => {
+          if (child.rowName === nodeName) {
             return false;
           } else {
             deleteNode(child, node);
             return true;
           }
         });
-        if (parent && parent.name === nodeName) {
-          parent.children = parent.children.filter((child) => child.name !== nodeName);
+        if (parent && parent.rowName === nodeName) {
+          parent.child = parent.child?.filter(
+            (child) => child.rowName !== nodeName
+          );
         }
       };
       deleteNode(state.root, null);
-    }
-  }
+    },
+  },
 });
 
-export const { addChild, editNode, deleteNode } = treeSlice.actions;
+export const { addChild, editNode, deleteNode, createStore } =
+  treeSlice.actions;
 export default treeSlice.reducer;

@@ -1,22 +1,24 @@
-import axios from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
+import { ServerResponse, TreeNode } from "../types/types";
 
 const userId = import.meta.env.VITE_ID;
 
-export function getList() {
-  axios
-    .get(`http://185.244.172.108:8081/v1/outlay-rows/entity/${userId}/row/list`)
-    .then(function (response) {
-      console.log(response);
+export function getList(): Promise<TreeNode[]> {
+  return axios
+    .get<TreeNode[]>(`http://185.244.172.108:8081/v1/outlay-rows/entity/${userId}/row/list`)
+    .then(function (response: AxiosResponse<TreeNode[]>) {
+      return response.data
     })
-    .catch(function (error) {
+    .catch(function (error: AxiosError) {
       console.log(error);
+      return []
     });
 }
 
 export function createRow() {
   axios
     .post(
-      `http://185.244.172.108:8081/v1/outlay-rows/entity/${userId}/row/list`,
+      `http://185.244.172.108:8081/v1/outlay-rows/entity/${userId}/row/create`,
       {
         equipmentCosts: 0,
         estimatedProfit: 0,
@@ -32,17 +34,17 @@ export function createRow() {
       }
     )
     .then(function (response) {
-      console.log(response);
+      return response;
     })
     .catch(function (error) {
       console.log(error);
     });
 }
 
-export function updateRow() {
+export function updateRow(rID: number) {
   axios
-    .post(
-      `http://185.244.172.108:8081/v1/outlay-rows/entity/${userId}/row/list`,
+    .post<ServerResponse>(
+      `http://185.244.172.108:8081/v1/outlay-rows/entity/${userId}/row/${rID}/update`,
       {
         equipmentCosts: 0,
         estimatedProfit: 0,
@@ -57,20 +59,20 @@ export function updateRow() {
       }
     )
     .then(function (response) {
-      console.log(response);
+      return response;
     })
     .catch(function (error) {
       console.log(error);
     });
 }
 
-export function deleteRow(rID:number) {
-  axios
-    .get(`http://185.244.172.108:8081/v1/outlay-rows/entity/${userId}/row/${rID}/delete`)
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-}
+// export function deleteRow():  {
+//   axios
+//     .delete(`http://185.244.172.108:8081/v1/outlay-rows/entity/${userId}/row/${rID}/delete`)
+//     .then(function (response) {
+//       console.log(response);
+//     })
+//     .catch(function (error) {
+//       console.log(error);
+//     });
+// }
